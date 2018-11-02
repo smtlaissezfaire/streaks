@@ -1,3 +1,5 @@
+require 'pry'
+
 module PercentageHelper
   def safe_divide(numerator, denominator)
     if denominator == 0
