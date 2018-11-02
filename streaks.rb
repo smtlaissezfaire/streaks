@@ -35,9 +35,9 @@ end
 
 extend PercentageHelper
 
-win_rate=0.50
-number_of_trades=10
-number_of_simulations=1_000
+win_rate=(ARGV[0] || 0.5).to_f
+number_of_trades=(ARGV[1] || 100).to_f
+number_of_simulations=(ARGV[2] || 1_000)
 simulation_results = []
 
 def run_simulation(number_of_trades, win_rate)
