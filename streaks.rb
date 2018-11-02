@@ -51,12 +51,13 @@ def run_simulation(number_of_trades, win_rate)
 
     if is_win
       wins += 1
-    end
 
-    if is_win == last_result
-      win_streak += 1
-      if win_streak > largest_win_streak
-        largest_win_streak = win_streak
+      if last_result # == is_win
+        win_streak += 1
+
+        if win_streak > largest_win_streak
+          largest_win_streak = win_streak
+        end
       end
     else
       win_streak = 0
@@ -83,17 +84,17 @@ end
   simulation_results << run_simulation(number_of_trades, win_rate)
 end
 
-require 'pry'
 wins = simulation_results.map { |x| x[:wins] }.sum
 total = simulation_results.map { |x| x[:number_of_trades] }.sum
 max_win_streak = simulation_results.map { |x| x[:win_streak] }.max
 
+puts "expected win rate: #{win_rate}"
 puts "samples: #{simulation_results.length}"
 puts "average across all samples: #{pp_percentage(wins, total)}"
 
-puts "Probability of a streak:"
+puts "Probability of a streak of:"
 1.upto(50) do |num|
-  count = simulation_results.select { |res| res[:win_streak] > num }.count
+  count = simulation_results.select { |res| res[:win_streak] >= num }.count
   res = count / simulation_results.length.to_f
-  puts "#{num}: #{pp_percentage(res)}"
+  puts "#{num}: #{pp_percentage(res)} (#{count})"
 end
